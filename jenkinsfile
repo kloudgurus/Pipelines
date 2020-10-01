@@ -19,5 +19,8 @@ node {
     stage('Upload_Artifact') {
         nexusArtifactUploader artifacts: [[artifactId: 'course', classifier: '', file: 'c:/Windows/System32/config/systemprofile/AppData/Local/Jenkins.jenkins/workspace/Course_new/target/course.war', type: 'war']], credentialsId: 'nexusid2', groupId: 'course', nexusUrl: '13.232.167.14:8085/', nexusVersion: 'nexus3', protocol: 'http', repository: 'Project2', version: '1.0.0.${BUILD_ID}-SNAPSHOT'
     }
+    stage('Send Notifications'){
+    emailext attachLog: true, body: 'Deployment of App is done properly', replyTo: 'kloudgurus.gmail.com', subject: 'Job is Success', to: 'kloudgurus.gmail.com'
+    }
    
 }
