@@ -22,5 +22,8 @@ node {
     stage('Send Notifications'){
     emailext attachLog: true, body: 'Deployment of App is done properly', replyTo: 'kloudgurus.gmail.com', subject: 'Job is Success', to: 'kloudgurus.gmail.com'
     }
-   
+
+    stage('run_Artifact_Prod'){
+    deploy adapters: [tomcat9(credentialsId: 'tomcatid2', path: '', url: 'http://13.235.2.173:9080/')], contextPath: 'course', war: 'c:/Windows/System32/config/systemprofile/AppData/Local/Jenkins.jenkins/workspace/Course_new/target/course.war'
+   }
 }
