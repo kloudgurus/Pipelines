@@ -1,0 +1,23 @@
+node {
+    def mvnHome
+    stage('Checkout_SourceCode') { 
+       
+        git 'https://github.com/kloudgurus/course.git'
+        
+        mvnHome = tool 'M3'
+    }
+    stage('Build_Artifact') {
+        
+        withEnv(["MVN_HOME=$mvnHome"]) {
+            if (isUnix()) {
+                sh '"$MVN_HOME/bin/mvn"  clean package'
+            } else {
+                bat(/"%MVN_HOME%\bin\mvn"  package/)
+            }
+        }
+    }
+    stage('Upload_Artifact') {
+        nexusArtifactUploader artifacts: [[artifactId: 'course', classifier: '', file: 'c:/Windows/System32/config/systemprofile/AppData/Local/Jenkins.jenkins/workspace/Course_new/target/course.war', type: 'war']], credentialsId: 'nexusid2', groupId: 'course', nexusUrl: '13.232.167.14:8085/', nexusVersion: 'nexus3', protocol: 'http', repository: 'Project2', version: '1.0.0.${BUILD_ID}-SNAPSHOT'
+    }
+   
+}
